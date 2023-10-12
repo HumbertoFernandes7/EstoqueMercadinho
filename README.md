@@ -1,3 +1,1 @@
-<<<<<<< HEAD
-Olá Mundo! ..
-
+Olá Mundo!
