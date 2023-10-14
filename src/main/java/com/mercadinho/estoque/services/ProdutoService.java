@@ -24,6 +24,11 @@ public class ProdutoService {
 	public ProdutoEntity cadastrarProduto(ProdutoEntity produtoCovetidoParaEntity) {
 		return produtoRepository.save(produtoCovetidoParaEntity);
 	}
+
+	public ProdutoEntity buscarProdutoPorId(Long id) {
+	return produtoRepository.findById(id)
+			.orElseThrow(() -> new RuntimeException("Não foi encontrado o produto pelo id:" + id));
+	}
 	
 	
 }
