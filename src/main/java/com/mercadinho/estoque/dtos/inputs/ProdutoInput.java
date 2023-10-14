@@ -9,13 +9,12 @@ import lombok.Setter;
 @Setter
 public class ProdutoInput {
 
-	
 	@NotBlank(message = "O nome é obrigatório")
 	private String nome;
-	
+
 	@NotNull(message = "A quantidade é obrigatório")
 	private Integer quantidade;
-	
+
 	@NotNull(message = "O proço é obrigatório")
 	private Double preco;
 }
