@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mercadinho.estoque.entities.ProdutoEntity;
+import com.mercadinho.estoque.exceptions.BadRequestBussinessException;
+import com.mercadinho.estoque.exceptions.NotFoundBussinessException;
 import com.mercadinho.estoque.repositories.ProdutoRepository;
 
 import jakarta.transaction.Transactional;
@@ -27,11 +29,20 @@ public class ProdutoService {
 
 	public ProdutoEntity buscarProdutoPorId(Long id) {
 		return produtoRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Não foi encontrado o produto pelo id: " + id));
+				.orElseThrow(() -> new NotFoundBussinessException("Não foi encontrado o produto pelo id: " + id));
 	}
 
+	@Transactional
 	public void deletarProduto(ProdutoEntity produtoEncontrado) {
 		produtoRepository.delete(produtoEncontrado);
 	}
 
+	public ProdutoEntity buscarProdutoPeloNome(String nome) {
+		ProdutoEntity produtoEncontrado = produtoRepository.findByNome(nome);
+		if (produtoEncontrado != null) {
+			return produtoEncontrado;
+		} else {
+			throw new BadRequestBussinessException("Produto: " + nome + " não cadastrado!");
+		}
+	}
 }

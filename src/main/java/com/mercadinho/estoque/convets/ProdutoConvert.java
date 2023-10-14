@@ -13,14 +13,14 @@ import com.mercadinho.estoque.entities.ProdutoEntity;
 
 @Component
 public class ProdutoConvert {
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
 	public ProdutoOutput EntityToOutput(ProdutoEntity produtoEntity) {
 		return modelMapper.map(produtoEntity, ProdutoOutput.class);
 	}
-	
+
 	public List<ProdutoOutput> listEntityToListOutput(List<ProdutoEntity> produtosEncontrados) {
 		return produtosEncontrados.stream().map(a -> this.EntityToOutput(a)).collect(Collectors.toList());
 	}

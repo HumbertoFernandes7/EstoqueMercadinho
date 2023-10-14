@@ -6,9 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.mercadinho.estoque.entities.ProdutoEntity;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<ProdutoEntity, Long>{
-	
-	
-	
+public interface ProdutoRepository extends JpaRepository<ProdutoEntity, Long> {
+
+	ProdutoEntity findByNome(String nome);
 
 }
