@@ -20,7 +20,7 @@ public class ProdutoEntity {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "nome")
+	@Column(name = "nome", unique = true)
 	private String nome;
 
 	@Column(name = "preco")

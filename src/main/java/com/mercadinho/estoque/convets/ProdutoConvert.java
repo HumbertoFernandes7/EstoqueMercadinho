@@ -21,15 +21,16 @@ public class ProdutoConvert {
 	public ProdutoOutput EntityToOutput(ProdutoEntity produtoEntity) {
 		return modelMapper.map(produtoEntity, ProdutoOutput.class);
 	}
+
 	public ProdutoEstoqueOutput EstoqueEntityToEstoqueOutput(ProdutoEntity produtoEntity) {
 		return modelMapper.map(produtoEntity, ProdutoEstoqueOutput.class);
 	}
-	
+
 	public List<ProdutoOutput> listEntityToListOutput(List<ProdutoEntity> produtosEncontrados) {
 		return produtosEncontrados.stream().map(a -> this.EntityToOutput(a)).collect(Collectors.toList());
 	}
-	
-	public List<ProdutoEstoqueOutput> listEstoqueEntityToListEstoqueOutput (List<ProdutoEntity> produtosEncontrados) {
+
+	public List<ProdutoEstoqueOutput> listEstoqueEntityToListEstoqueOutput(List<ProdutoEntity> produtosEncontrados) {
 		return produtosEncontrados.stream().map(a -> this.EstoqueEntityToEstoqueOutput(a)).collect(Collectors.toList());
 	}
 

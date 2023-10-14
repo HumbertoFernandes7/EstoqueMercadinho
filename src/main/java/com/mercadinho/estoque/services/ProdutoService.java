@@ -24,7 +24,14 @@ public class ProdutoService {
 
 	@Transactional
 	public ProdutoEntity cadastrarProduto(ProdutoEntity produtoCovetidoParaEntity) {
-		return produtoRepository.save(produtoCovetidoParaEntity);
+
+		ProdutoEntity produtoExistente = produtoRepository.findByNome(produtoCovetidoParaEntity.getNome());
+		if (produtoExistente == null) {
+			return produtoRepository.save(produtoCovetidoParaEntity);
+		} else {
+			throw new BadRequestBussinessException(
+					"Produto: " + produtoCovetidoParaEntity.getNome() + " já cadastrado!");
+		}
 	}
 
 	public ProdutoEntity buscarProdutoPorId(Long id) {
@@ -50,7 +57,6 @@ public class ProdutoService {
 		Integer estoqueZerado = 0;
 		List<ProdutoEntity> lista = produtoRepository.findByQuantidade(estoqueZerado);
 		return lista;
-	
-		
+
 	}
 }

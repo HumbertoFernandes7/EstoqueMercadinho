@@ -68,11 +68,13 @@ public class ProdutosController {
 		ProdutoOutput produtoConvertidoParaOutput = produtoConvert.EntityToOutput(produtoEncontrado);
 		return produtoConvertidoParaOutput;
 	}
-	
+
 	@GetMapping("/semEstoque")
 	public List<ProdutoEstoqueOutput> BuscarProdutosPorEstoqueZerado() {
 		List<ProdutoEntity> estoqueZerado = produtoService.buscarProdutosPorEstoqueZerado();
-		List<ProdutoEstoqueOutput> estoqueZeradoConvertidoParaOutput = produtoConvert.listEstoqueEntityToListEstoqueOutput(estoqueZerado);
+		List<ProdutoEstoqueOutput> estoqueZeradoConvertidoParaOutput = produtoConvert
+				.listEstoqueEntityToListEstoqueOutput(estoqueZerado);
 		return estoqueZeradoConvertidoParaOutput;
 	}
+
 }
