@@ -45,4 +45,12 @@ public class ProdutoService {
 			throw new BadRequestBussinessException("Produto: " + nome + " não cadastrado!");
 		}
 	}
+
+	public List<ProdutoEntity> buscarProdutosPorEstoqueZerado() {
+		Integer estoqueZerado = 0;
+		List<ProdutoEntity> lista = produtoRepository.findByQuantidade(estoqueZerado);
+		return lista;
+	
+		
+	}
 }

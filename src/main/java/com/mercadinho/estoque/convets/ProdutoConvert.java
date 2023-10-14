@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.mercadinho.estoque.dtos.inputs.ProdutoInput;
+import com.mercadinho.estoque.dtos.outputs.ProdutoEstoqueOutput;
 import com.mercadinho.estoque.dtos.outputs.ProdutoOutput;
 import com.mercadinho.estoque.entities.ProdutoEntity;
 
@@ -20,9 +21,16 @@ public class ProdutoConvert {
 	public ProdutoOutput EntityToOutput(ProdutoEntity produtoEntity) {
 		return modelMapper.map(produtoEntity, ProdutoOutput.class);
 	}
-
+	public ProdutoEstoqueOutput EstoqueEntityToEstoqueOutput(ProdutoEntity produtoEntity) {
+		return modelMapper.map(produtoEntity, ProdutoEstoqueOutput.class);
+	}
+	
 	public List<ProdutoOutput> listEntityToListOutput(List<ProdutoEntity> produtosEncontrados) {
 		return produtosEncontrados.stream().map(a -> this.EntityToOutput(a)).collect(Collectors.toList());
+	}
+	
+	public List<ProdutoEstoqueOutput> listEstoqueEntityToListEstoqueOutput (List<ProdutoEntity> produtosEncontrados) {
+		return produtosEncontrados.stream().map(a -> this.EstoqueEntityToEstoqueOutput(a)).collect(Collectors.toList());
 	}
 
 	public ProdutoEntity InputEntity(ProdutoInput produtoInput) {

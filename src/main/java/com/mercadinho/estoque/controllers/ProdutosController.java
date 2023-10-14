@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mercadinho.estoque.convets.ProdutoConvert;
 import com.mercadinho.estoque.dtos.inputs.NomeProdutoInput;
 import com.mercadinho.estoque.dtos.inputs.ProdutoInput;
+import com.mercadinho.estoque.dtos.outputs.ProdutoEstoqueOutput;
 import com.mercadinho.estoque.dtos.outputs.ProdutoOutput;
 import com.mercadinho.estoque.entities.ProdutoEntity;
 import com.mercadinho.estoque.services.ProdutoService;
@@ -67,5 +68,11 @@ public class ProdutosController {
 		ProdutoOutput produtoConvertidoParaOutput = produtoConvert.EntityToOutput(produtoEncontrado);
 		return produtoConvertidoParaOutput;
 	}
-
+	
+	@GetMapping("/semEstoque")
+	public List<ProdutoEstoqueOutput> BuscarProdutosPorEstoqueZerado() {
+		List<ProdutoEntity> estoqueZerado = produtoService.buscarProdutosPorEstoqueZerado();
+		List<ProdutoEstoqueOutput> estoqueZeradoConvertidoParaOutput = produtoConvert.listEstoqueEntityToListEstoqueOutput(estoqueZerado);
+		return estoqueZeradoConvertidoParaOutput;
+	}
 }
