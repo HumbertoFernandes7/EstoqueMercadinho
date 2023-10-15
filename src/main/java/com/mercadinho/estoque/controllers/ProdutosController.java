@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mercadinho.estoque.convets.ProdutoConvert;
 import com.mercadinho.estoque.dtos.inputs.NomeProdutoInput;
 import com.mercadinho.estoque.dtos.inputs.ProdutoInput;
+import com.mercadinho.estoque.dtos.inputs.QuantidadeProdutoInput;
 import com.mercadinho.estoque.dtos.outputs.ProdutoEstoqueOutput;
 import com.mercadinho.estoque.dtos.outputs.ProdutoOutput;
 import com.mercadinho.estoque.entities.ProdutoEntity;
@@ -70,11 +72,29 @@ public class ProdutosController {
 	}
 
 	@GetMapping("/semEstoque")
-	public List<ProdutoEstoqueOutput> BuscarProdutosPorEstoqueZerado() {
+	public List<ProdutoEstoqueOutput> buscarProdutosPorEstoqueZerado() {
 		List<ProdutoEntity> estoqueZerado = produtoService.buscarProdutosPorEstoqueZerado();
 		List<ProdutoEstoqueOutput> estoqueZeradoConvertidoParaOutput = produtoConvert
 				.listEstoqueEntityToListEstoqueOutput(estoqueZerado);
 		return estoqueZeradoConvertidoParaOutput;
+	}
+
+	@PutMapping("/{id}/adicionarQuantidade")
+	public ProdutoEntity adicionarQuantidadeProduto(@PathVariable Long id,
+			@RequestBody QuantidadeProdutoInput quantidadeProdutoInput) {
+		ProdutoEntity produtoEncontrado = produtoService.buscarProdutoPorId(id);
+		ProdutoEntity quantidadeAlterada = produtoService.adicionarQuantidadeProduto(quantidadeProdutoInput,
+				produtoEncontrado);
+		return quantidadeAlterada;
+	}
+
+	@PutMapping("/{id}/removerQuantidade")
+	public ProdutoEntity removerQuantidadeProduto(@PathVariable Long id,
+			@RequestBody QuantidadeProdutoInput quantidadeProdutoInput) {
+		ProdutoEntity produtoEncontrado = produtoService.buscarProdutoPorId(id);
+		ProdutoEntity quantidadeAlterada = produtoService.removerQuantidadeProduto(quantidadeProdutoInput,
+				produtoEncontrado);
+		return quantidadeAlterada;
 	}
 
 }

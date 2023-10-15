@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mercadinho.estoque.dtos.inputs.QuantidadeProdutoInput;
 import com.mercadinho.estoque.entities.ProdutoEntity;
 import com.mercadinho.estoque.exceptions.BadRequestBussinessException;
 import com.mercadinho.estoque.exceptions.NotFoundBussinessException;
@@ -57,6 +58,24 @@ public class ProdutoService {
 		Integer estoqueZerado = 0;
 		List<ProdutoEntity> lista = produtoRepository.findByQuantidade(estoqueZerado);
 		return lista;
-
 	}
+
+	@Transactional
+	public ProdutoEntity adicionarQuantidadeProduto(QuantidadeProdutoInput quantidadeProdutoInput,
+			ProdutoEntity produtoEncontrado) {
+		Integer quantidadeAntiga = produtoEncontrado.getQuantidade();
+		Integer quantidadeAtual = quantidadeAntiga += quantidadeProdutoInput.getQuantidade();
+		produtoEncontrado.setQuantidade(quantidadeAtual);
+		return produtoRepository.save(produtoEncontrado);
+	}
+
+	@Transactional
+	public ProdutoEntity removerQuantidadeProduto(QuantidadeProdutoInput quantidadeProdutoInput,
+			ProdutoEntity produtoEncontrado) {
+		Integer quantidadeAntiga = produtoEncontrado.getQuantidade();
+		Integer quantidadeAtual = quantidadeAntiga -= quantidadeProdutoInput.getQuantidade();
+		produtoEncontrado.setQuantidade(quantidadeAtual);
+		return produtoRepository.save(produtoEncontrado);
+	}
+
 }
