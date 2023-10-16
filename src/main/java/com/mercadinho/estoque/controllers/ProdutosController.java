@@ -45,7 +45,7 @@ public class ProdutosController {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping("/cadastro")
 	public ProdutoOutput cadastrarProduto(@Valid @RequestBody ProdutoInput produtoInput) {
-		ProdutoEntity produtoCovetidoParaEntity = produtoConvert.InputEntity(produtoInput);
+		ProdutoEntity produtoCovetidoParaEntity = produtoConvert.InputToNewEntity(produtoInput);
 		ProdutoEntity produtoCadastrado = produtoService.cadastrarProduto(produtoCovetidoParaEntity);
 		ProdutoOutput produtoConvertidoParaOutput = produtoConvert.EntityToOutput(produtoCadastrado);
 		return produtoConvertidoParaOutput;
@@ -80,21 +80,33 @@ public class ProdutosController {
 	}
 
 	@PutMapping("/{id}/adicionarQuantidade")
-	public ProdutoEntity adicionarQuantidadeProduto(@PathVariable Long id,
+	public ProdutoOutput adicionarQuantidadeProduto(@PathVariable Long id,
 			@RequestBody QuantidadeProdutoInput quantidadeProdutoInput) {
 		ProdutoEntity produtoEncontrado = produtoService.buscarProdutoPorId(id);
 		ProdutoEntity quantidadeAlterada = produtoService.adicionarQuantidadeProduto(quantidadeProdutoInput,
 				produtoEncontrado);
-		return quantidadeAlterada;
+		ProdutoOutput quantidadeConvertidaParaOutput = produtoConvert.EntityToOutput(quantidadeAlterada);
+		return quantidadeConvertidaParaOutput;
 	}
 
 	@PutMapping("/{id}/removerQuantidade")
-	public ProdutoEntity removerQuantidadeProduto(@PathVariable Long id,
+	public ProdutoOutput removerQuantidadeProduto(@PathVariable Long id,
 			@RequestBody QuantidadeProdutoInput quantidadeProdutoInput) {
 		ProdutoEntity produtoEncontrado = produtoService.buscarProdutoPorId(id);
 		ProdutoEntity quantidadeAlterada = produtoService.removerQuantidadeProduto(quantidadeProdutoInput,
 				produtoEncontrado);
-		return quantidadeAlterada;
+		ProdutoOutput quantidadeConvertidaParaOutput = produtoConvert.EntityToOutput(quantidadeAlterada);
+		return quantidadeConvertidaParaOutput;
 	}
+	
+	@PutMapping("/{id}/alterar")
+	public ProdutoOutput alterarProduto(@PathVariable Long id, @RequestBody @Valid ProdutoInput produtoInput) {
+		ProdutoEntity produtoEncontrado = produtoService.buscarProdutoPorId(id);
+		ProdutoEntity produtoAtualizado = produtoConvert.InputToUpdateEntity(produtoEncontrado,produtoInput);
+		ProdutoEntity produtoAlterado = produtoService.alterarProduto(produtoAtualizado);
+		ProdutoOutput produtoAtualizadoConveridoParaOutput = produtoConvert.EntityToOutput(produtoAlterado);
+		return produtoAtualizadoConveridoParaOutput;
+	}
+	
 
 }

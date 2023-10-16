@@ -34,7 +34,13 @@ public class ProdutoConvert {
 		return produtosEncontrados.stream().map(a -> this.EstoqueEntityToEstoqueOutput(a)).collect(Collectors.toList());
 	}
 
-	public ProdutoEntity InputEntity(ProdutoInput produtoInput) {
+	public ProdutoEntity InputToNewEntity(ProdutoInput produtoInput) {
 		return modelMapper.map(produtoInput, ProdutoEntity.class);
+	}
+	
+	public ProdutoEntity InputToUpdateEntity( ProdutoEntity produtoEncontrado, ProdutoInput produtoInput) {
+		ProdutoEntity produtoAtualizado = modelMapper.map(produtoInput, ProdutoEntity.class);
+		produtoAtualizado.setId(produtoEncontrado.getId());
+		return produtoAtualizado;
 	}
 }

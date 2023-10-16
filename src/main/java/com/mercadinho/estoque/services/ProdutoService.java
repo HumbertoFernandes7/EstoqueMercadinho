@@ -74,13 +74,22 @@ public class ProdutoService {
 			ProdutoEntity produtoEncontrado) {
 		Integer quantidadeAntiga = produtoEncontrado.getQuantidade();
 		Integer quantidadeAtual = quantidadeAntiga -= quantidadeProdutoInput.getQuantidade();
-		if(quantidadeAtual >= 0) {
+		if (quantidadeAtual >= 0) {
 			produtoEncontrado.setQuantidade(quantidadeAtual);
 			return produtoRepository.save(produtoEncontrado);
-		}else {
+		} else {
 			throw new BadRequestBussinessException("Quantidade inválida!");
 		}
 	}
-	
+
+	@Transactional
+	public ProdutoEntity alterarProduto(ProdutoEntity produtoAtualizado) {
+		ProdutoEntity produtoExistente = produtoRepository.findByNome(produtoAtualizado.getNome());
+		if (produtoExistente == null || produtoExistente.getId() == produtoAtualizado.getId()) {
+			return produtoRepository.save(produtoAtualizado);
+		} else {
+			throw new BadRequestBussinessException("Produto: " + produtoAtualizado.getNome() + " já cadastrado!");
+		}
+	}
 
 }
