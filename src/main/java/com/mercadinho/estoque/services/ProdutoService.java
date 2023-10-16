@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mercadinho.estoque.dtos.inputs.ProdutoVendidoInput;
+import com.mercadinho.estoque.dtos.inputs.ProdutosVendidosInput;
 import com.mercadinho.estoque.dtos.inputs.QuantidadeProdutoInput;
 import com.mercadinho.estoque.entities.ProdutoEntity;
 import com.mercadinho.estoque.exceptions.BadRequestBussinessException;
@@ -90,6 +92,27 @@ public class ProdutoService {
 		} else {
 			throw new BadRequestBussinessException("Produto: " + produtoAtualizado.getNome() + " já cadastrado!");
 		}
+	}
+
+	@Transactional
+	public List<ProdutoVendidoInput> abaterVendaNoEstoque(ProdutosVendidosInput produtosVendidosInput) {
+
+		List<ProdutoVendidoInput> listaDeProdutos = produtosVendidosInput.getProdutos();
+
+		for (ProdutoVendidoInput produto : listaDeProdutos) {
+			ProdutoEntity produtoEncontrado = buscarProdutoPorId(produto.getId());
+			Integer quantidadeAntiga = produtoEncontrado.getQuantidade();
+			quantidadeAntiga -= produto.getQuantidade();
+
+			if (quantidadeAntiga >= 0) {
+				produtoEncontrado.setQuantidade(quantidadeAntiga);
+				produtoRepository.save(produtoEncontrado);
+			} else {
+				throw new BadRequestBussinessException(produtoEncontrado.getNome() + " sem estoque");
+			}
+		}
+		return listaDeProdutos;
+
 	}
 
 }

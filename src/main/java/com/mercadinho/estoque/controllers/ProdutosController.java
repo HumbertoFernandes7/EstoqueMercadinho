@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mercadinho.estoque.convets.ProdutoConvert;
 import com.mercadinho.estoque.dtos.inputs.NomeProdutoInput;
 import com.mercadinho.estoque.dtos.inputs.ProdutoInput;
+import com.mercadinho.estoque.dtos.inputs.ProdutoVendidoInput;
+import com.mercadinho.estoque.dtos.inputs.ProdutosVendidosInput;
 import com.mercadinho.estoque.dtos.inputs.QuantidadeProdutoInput;
 import com.mercadinho.estoque.dtos.outputs.ProdutoEstoqueOutput;
 import com.mercadinho.estoque.dtos.outputs.ProdutoOutput;
+import com.mercadinho.estoque.dtos.outputs.ProdutoVendidoOutput;
 import com.mercadinho.estoque.entities.ProdutoEntity;
 import com.mercadinho.estoque.services.ProdutoService;
 
@@ -98,15 +101,21 @@ public class ProdutosController {
 		ProdutoOutput quantidadeConvertidaParaOutput = produtoConvert.EntityToOutput(quantidadeAlterada);
 		return quantidadeConvertidaParaOutput;
 	}
-	
+
 	@PutMapping("/{id}/alterar")
 	public ProdutoOutput alterarProduto(@PathVariable Long id, @RequestBody @Valid ProdutoInput produtoInput) {
 		ProdutoEntity produtoEncontrado = produtoService.buscarProdutoPorId(id);
-		ProdutoEntity produtoAtualizado = produtoConvert.InputToUpdateEntity(produtoEncontrado,produtoInput);
+		ProdutoEntity produtoAtualizado = produtoConvert.InputToUpdateEntity(produtoEncontrado, produtoInput);
 		ProdutoEntity produtoAlterado = produtoService.alterarProduto(produtoAtualizado);
 		ProdutoOutput produtoAtualizadoConveridoParaOutput = produtoConvert.EntityToOutput(produtoAlterado);
 		return produtoAtualizadoConveridoParaOutput;
 	}
-	
 
+	@PutMapping("/vender")
+	public List<ProdutoVendidoOutput> abaterVendaNoEstoque(@RequestBody ProdutosVendidosInput produtosVendidosInput) {
+		List<ProdutoVendidoInput> produtoAbatidos = produtoService.abaterVendaNoEstoque(produtosVendidosInput);
+		List<ProdutoVendidoOutput> listaDeProdutosAbatidosConvertida = produtoConvert
+				.listProdutoVendidoInputToListProdutoVendidoOutput(produtoAbatidos);
+		return listaDeProdutosAbatidosConvertida;
+	}
 }
