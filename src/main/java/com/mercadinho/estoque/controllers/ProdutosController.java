@@ -112,7 +112,7 @@ public class ProdutosController {
 	}
 
 	@PutMapping("/vender")
-	public List<ProdutoVendidoOutput> abaterVendaNoEstoque(@RequestBody ProdutosVendidosInput produtosVendidosInput) {
+	public List<ProdutoVendidoOutput> abaterVendaNoEstoque(@RequestBody @Valid ProdutosVendidosInput produtosVendidosInput) {
 		List<ProdutoVendidoInput> produtoAbatidos = produtoService.abaterVendaNoEstoque(produtosVendidosInput);
 		List<ProdutoVendidoOutput> listaDeProdutosAbatidosConvertida = produtoConvert
 				.listProdutoVendidoInputToListProdutoVendidoOutput(produtoAbatidos);
