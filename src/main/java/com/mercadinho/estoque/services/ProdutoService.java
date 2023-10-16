@@ -74,8 +74,13 @@ public class ProdutoService {
 			ProdutoEntity produtoEncontrado) {
 		Integer quantidadeAntiga = produtoEncontrado.getQuantidade();
 		Integer quantidadeAtual = quantidadeAntiga -= quantidadeProdutoInput.getQuantidade();
-		produtoEncontrado.setQuantidade(quantidadeAtual);
-		return produtoRepository.save(produtoEncontrado);
+		if(quantidadeAtual >= 0) {
+			produtoEncontrado.setQuantidade(quantidadeAtual);
+			return produtoRepository.save(produtoEncontrado);
+		}else {
+			throw new BadRequestBussinessException("Quantidade inválida!");
+		}
 	}
+	
 
 }
