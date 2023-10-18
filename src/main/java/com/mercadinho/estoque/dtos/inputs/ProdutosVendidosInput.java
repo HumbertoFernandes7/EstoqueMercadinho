@@ -2,7 +2,9 @@ package com.mercadinho.estoque.dtos.inputs;
 
 import java.util.List;
 
-import jakarta.validation.constraints.NotBlank;
+import com.mercadinho.estoque.exceptions.BadRequestBussinessException;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +12,16 @@ import lombok.Setter;
 @Setter
 public class ProdutosVendidosInput {
 
-	@NotBlank(message =  "Produtos é obrigátorio")
+	@NotNull(message = "produtos é obrigatório")
 	private List<ProdutoVendidoInput> produtos;
 
+	
+	
+	public List<ProdutoVendidoInput>  erroSeNadaComoIdeaDeQuantidade() {
+        if (produtos == null || produtos.isEmpty()) {
+        	throw new BadRequestBussinessException("erro");
+        }
+        return null;
+    }
 }
+	

@@ -103,15 +103,16 @@ public class ProdutoService {
 			ProdutoEntity produtoEncontrado = buscarProdutoPorId(produto.getId());
 			Integer quantidadeAntiga = produtoEncontrado.getQuantidade();
 			quantidadeAntiga -= produto.getQuantidade();
-
+			
 			if (quantidadeAntiga >= 0) {
 				produtoEncontrado.setQuantidade(quantidadeAntiga);
 				produtoRepository.save(produtoEncontrado);
 			} else {
 				throw new BadRequestBussinessException(produtoEncontrado.getNome() + " sem estoque");
 			}
+			
 		}
-		return listaDeProdutos;
+		return listaDeProdutos ;
 
 	}
 

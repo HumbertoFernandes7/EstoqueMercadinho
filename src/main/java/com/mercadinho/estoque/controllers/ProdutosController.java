@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mercadinho.estoque.convets.ProdutoConvert;
+import com.mercadinho.estoque.converts.ProdutoConvert;
 import com.mercadinho.estoque.dtos.inputs.NomeProdutoInput;
 import com.mercadinho.estoque.dtos.inputs.ProdutoInput;
 import com.mercadinho.estoque.dtos.inputs.ProdutoVendidoInput;
