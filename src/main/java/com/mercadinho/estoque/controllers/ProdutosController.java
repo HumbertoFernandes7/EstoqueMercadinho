@@ -1,3 +1,4 @@
+
 package com.mercadinho.estoque.controllers;
 
 import java.util.List;
@@ -70,9 +71,9 @@ public class ProdutosController {
 	}
 
 	@GetMapping("/nomeProduto")
-	public ProdutoOutput buscarProdutoPeloNome(@Valid @RequestBody NomeProdutoInput nomeProdutoInput) {
-		ProdutoEntity produtoEncontrado = produtoService.buscarProdutoPeloNome(nomeProdutoInput.getNome());
-		ProdutoOutput produtoConvertidoParaOutput = produtoConvert.EntityToOutput(produtoEncontrado);
+	public List<ProdutoOutput> buscarProdutoPeloNome(@Valid @RequestBody NomeProdutoInput nomeProdutoInput) {
+		List<ProdutoEntity> produtoEncontrado = produtoService.buscarProdutoPeloNome(nomeProdutoInput.getNome());
+		List<ProdutoOutput>  produtoConvertidoParaOutput = produtoConvert.listEntityToListOutput(produtoEncontrado);
 		return produtoConvertidoParaOutput;
 	}
 

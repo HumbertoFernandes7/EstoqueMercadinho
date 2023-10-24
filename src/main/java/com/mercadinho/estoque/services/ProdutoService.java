@@ -47,13 +47,9 @@ public class ProdutoService {
 		produtoRepository.delete(produtoEncontrado);
 	}
 
-	public ProdutoEntity buscarProdutoPeloNome(String nome) {
-		ProdutoEntity produtoEncontrado = produtoRepository.findByNome(nome);
-		if (produtoEncontrado != null) {
+	public List<ProdutoEntity> buscarProdutoPeloNome(String nome) {
+		List<ProdutoEntity> produtoEncontrado = produtoRepository.findByNomeContains(nome);
 			return produtoEncontrado;
-		} else {
-			throw new BadRequestBussinessException("Produto: " + nome + " não cadastrado!");
-		}
 	}
 
 	public List<ProdutoEntity> buscarProdutosPorEstoqueZerado() {

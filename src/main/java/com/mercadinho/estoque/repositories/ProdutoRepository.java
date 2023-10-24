@@ -11,6 +11,8 @@ import com.mercadinho.estoque.entities.ProdutoEntity;
 public interface ProdutoRepository extends JpaRepository<ProdutoEntity, Long> {
 
 	ProdutoEntity findByNome(String nome);
+	
+	List<ProdutoEntity> findByNomeContains(String nome);
 
 	List<ProdutoEntity> findByQuantidade(Integer estoqueZerado);
 
