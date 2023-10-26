@@ -22,7 +22,6 @@ import com.mercadinho.estoque.dtos.inputs.ProdutoInput;
 import com.mercadinho.estoque.dtos.inputs.ProdutoVendidoInput;
 import com.mercadinho.estoque.dtos.inputs.ProdutosVendidosInput;
 import com.mercadinho.estoque.dtos.inputs.QuantidadeProdutoInput;
-import com.mercadinho.estoque.dtos.outputs.ProdutoEstoqueOutput;
 import com.mercadinho.estoque.dtos.outputs.ProdutoOutput;
 import com.mercadinho.estoque.dtos.outputs.ProdutoVendidoOutput;
 import com.mercadinho.estoque.entities.ProdutoEntity;
@@ -71,17 +70,16 @@ public class ProdutosController {
 	}
 
 	@GetMapping("/busca")
-	public List<ProdutoOutput> buscarProdutoPeloNome(@RequestParam (required = true) String nomeProduto) {
+	public List<ProdutoOutput> buscarProdutoPeloNome(@RequestParam(required = true) String nomeProduto) {
 		List<ProdutoEntity> produtoEncontrado = produtoService.buscarProdutoPeloNome(nomeProduto);
-		List<ProdutoOutput>  produtoConvertidoParaOutput = produtoConvert.listEntityToListOutput(produtoEncontrado);
+		List<ProdutoOutput> produtoConvertidoParaOutput = produtoConvert.listEntityToListOutput(produtoEncontrado);
 		return produtoConvertidoParaOutput;
 	}
 
 	@GetMapping("/semEstoque")
-	public List<ProdutoEstoqueOutput> buscarProdutosPorEstoqueZerado() {
+	public List<ProdutoOutput> buscarProdutosPorEstoqueZerado() {
 		List<ProdutoEntity> estoqueZerado = produtoService.buscarProdutosPorEstoqueZerado();
-		List<ProdutoEstoqueOutput> estoqueZeradoConvertidoParaOutput = produtoConvert
-				.listEstoqueEntityToListEstoqueOutput(estoqueZerado);
+		List<ProdutoOutput> estoqueZeradoConvertidoParaOutput = produtoConvert.listEntityToListOutput(estoqueZerado);
 		return estoqueZeradoConvertidoParaOutput;
 	}
 
@@ -115,7 +113,8 @@ public class ProdutosController {
 	}
 
 	@PutMapping("/vender")
-	public List<ProdutoVendidoOutput> abaterVendaNoEstoque(@RequestBody @Valid ProdutosVendidosInput produtosVendidosInput) {
+	public List<ProdutoVendidoOutput> abaterVendaNoEstoque(
+			@RequestBody @Valid ProdutosVendidosInput produtosVendidosInput) {
 		List<ProdutoVendidoInput> produtoAbatidos = produtoService.abaterVendaNoEstoque(produtosVendidosInput);
 		List<ProdutoVendidoOutput> listaDeProdutosAbatidosConvertida = produtoConvert
 				.listProdutoVendidoInputToListProdutoVendidoOutput(produtoAbatidos);
