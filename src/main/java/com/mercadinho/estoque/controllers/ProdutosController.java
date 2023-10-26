@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mercadinho.estoque.converts.ProdutoConvert;
-import com.mercadinho.estoque.dtos.inputs.NomeProdutoInput;
 import com.mercadinho.estoque.dtos.inputs.ProdutoInput;
 import com.mercadinho.estoque.dtos.inputs.ProdutoVendidoInput;
 import com.mercadinho.estoque.dtos.inputs.ProdutosVendidosInput;
@@ -70,9 +70,9 @@ public class ProdutosController {
 		produtoService.deletarProduto(produtoEncontrado);
 	}
 
-	@GetMapping("/nomeProduto")
-	public List<ProdutoOutput> buscarProdutoPeloNome(@Valid @RequestBody NomeProdutoInput nomeProdutoInput) {
-		List<ProdutoEntity> produtoEncontrado = produtoService.buscarProdutoPeloNome(nomeProdutoInput.getNome());
+	@GetMapping("/busca")
+	public List<ProdutoOutput> buscarProdutoPeloNome(@RequestParam (required = true) String nomeProduto) {
+		List<ProdutoEntity> produtoEncontrado = produtoService.buscarProdutoPeloNome(nomeProduto);
 		List<ProdutoOutput>  produtoConvertidoParaOutput = produtoConvert.listEntityToListOutput(produtoEncontrado);
 		return produtoConvertidoParaOutput;
 	}
