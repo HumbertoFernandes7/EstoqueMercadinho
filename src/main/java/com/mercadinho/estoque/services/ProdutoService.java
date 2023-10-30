@@ -76,7 +76,7 @@ public class ProdutoService {
 			produtoEncontrado.setQuantidade(quantidadeAtual);
 			return produtoRepository.save(produtoEncontrado);
 		} else {
-			throw new BadRequestBussinessException("Quantidade inválida!");
+			throw new BadRequestBussinessException("O produto já possui a quantidade mínima!");
 		}
 	}
 
