@@ -49,7 +49,7 @@ public class ProdutosController {
 
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping("/cadastro")
-	public ProdutoOutput cadastrarProduto(@Valid @RequestBody ProdutoInput produtoInput) {
+	public ProdutoOutput cadastrarProduto(@RequestBody @Valid ProdutoInput produtoInput) {
 		ProdutoEntity produtoCovetidoParaEntity = produtoConvert.InputToNewEntity(produtoInput);
 		ProdutoEntity produtoCadastrado = produtoService.cadastrarProduto(produtoCovetidoParaEntity);
 		ProdutoOutput produtoConvertidoParaOutput = produtoConvert.EntityToOutput(produtoCadastrado);

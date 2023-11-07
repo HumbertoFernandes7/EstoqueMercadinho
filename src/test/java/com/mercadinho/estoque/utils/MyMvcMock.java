@@ -42,6 +42,10 @@ public class MyMvcMock {
 	public ResultActions find(String uri) throws Exception {
 		return sendGet(uri).andExpect(status().isOk());
 	}
+	
+	public ResultActions findWithBadRequest(String uri) throws Exception {
+		return sendGet(uri).andExpect(status().isBadRequest());
+	}
 
 	public ResultActions findWithNotFound(String uri) throws Exception {
 		return sendGet(uri).andExpect(status().isNotFound());
