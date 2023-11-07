@@ -1,5 +1,7 @@
 package com.mercadinho.estoque.controllers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.web.servlet.ResultActions;
 
 import com.mercadinho.estoque.dtos.inputs.ProdutoInput;
 import com.mercadinho.estoque.utils.MyMvcMock;
@@ -40,7 +43,16 @@ public class ListarProdutoControllerTest {
 	//
 	@Test
 	void quando_ListarProdutosRetornarSucesso() throws Exception {
-		mvc.find(this.uriListarTodos);
-		// result.andExpect(jsonPath("$.content[0].id").exists());
+		ResultActions result = mvc.find(this.uriListarTodos);
+		result.andExpect(jsonPath("$[0].id").value(1))
+		.andExpect(jsonPath("$[0].nome").value("Produto1"))
+		.andExpect(jsonPath("$[0].preco").value(12.00))
+		.andExpect(jsonPath("$[0].quantidade").value(1))
+		
+		.andExpect(jsonPath("$[1].id").value(2))
+		.andExpect(jsonPath("$[1].nome").value("Produto2"))
+		.andExpect(jsonPath("$[1].preco").value(12.00))
+		.andExpect(jsonPath("$[1].quantidade").value(1));
+			
 	}
 }
