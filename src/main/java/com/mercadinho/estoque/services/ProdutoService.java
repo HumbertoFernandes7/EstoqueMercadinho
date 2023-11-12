@@ -30,7 +30,11 @@ public class ProdutoService {
 
 		ProdutoEntity produtoExistente = produtoRepository.findByNome(produtoCovetidoParaEntity.getNome());
 		if (produtoExistente == null) {
-			return produtoRepository.save(produtoCovetidoParaEntity);
+			if (produtoCovetidoParaEntity.getQuantidade() >= 0) {
+				return produtoRepository.save(produtoCovetidoParaEntity);
+			} else {
+				throw new BadRequestBussinessException("Quantidade do produto não pode ser menor que 0");
+			}
 		} else {
 			throw new BadRequestBussinessException(
 					"Produto: " + produtoCovetidoParaEntity.getNome() + " já cadastrado!");
@@ -49,7 +53,7 @@ public class ProdutoService {
 
 	public List<ProdutoEntity> buscarProdutoPeloNome(String nome) {
 		List<ProdutoEntity> produtoEncontrado = produtoRepository.findByNomeContains(nome);
-			return produtoEncontrado;
+		return produtoEncontrado;
 	}
 
 	public List<ProdutoEntity> buscarProdutosPorEstoqueZerado() {
@@ -84,7 +88,11 @@ public class ProdutoService {
 	public ProdutoEntity alterarProduto(ProdutoEntity produtoAtualizado) {
 		ProdutoEntity produtoExistente = produtoRepository.findByNome(produtoAtualizado.getNome());
 		if (produtoExistente == null || produtoExistente.getId() == produtoAtualizado.getId()) {
-			return produtoRepository.save(produtoAtualizado);
+			if (produtoAtualizado.getQuantidade() >= 0) {
+				return produtoRepository.save(produtoAtualizado);
+			} else {
+				throw new BadRequestBussinessException("Quantidade do produto não pode ser menor que 0");
+			}
 		} else {
 			throw new BadRequestBussinessException("Produto: " + produtoAtualizado.getNome() + " já cadastrado!");
 		}
@@ -99,16 +107,16 @@ public class ProdutoService {
 			ProdutoEntity produtoEncontrado = buscarProdutoPorId(produto.getId());
 			Integer quantidadeAntiga = produtoEncontrado.getQuantidade();
 			quantidadeAntiga -= produto.getQuantidade();
-			
+
 			if (quantidadeAntiga >= 0) {
 				produtoEncontrado.setQuantidade(quantidadeAntiga);
 				produtoRepository.save(produtoEncontrado);
 			} else {
 				throw new BadRequestBussinessException(produtoEncontrado.getNome() + " sem estoque");
 			}
-			
+
 		}
-		return listaDeProdutos ;
+		return listaDeProdutos;
 
 	}
 

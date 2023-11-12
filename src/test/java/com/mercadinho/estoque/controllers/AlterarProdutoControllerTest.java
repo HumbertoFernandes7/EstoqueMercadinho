@@ -88,5 +88,11 @@ public class AlterarProdutoControllerTest {
 		this.produto.setQuantidade(null);
 		mvc.updateWithBadRequest(this.uriAlterar, this.produto);
 	}
-
+	
+	@Test
+	void quando_alterarProdutoQuantidadeMenorQueZeroRetornarErro() throws Exception{
+		this.produto.setQuantidade(-1);
+		ResultActions result = mvc.updateWithBadRequest(this.uriAlterar, this.produto);
+		result.andExpect(jsonPath("[?($.message == 'Quantidade do produto não pode ser menor que 0')]").exists());
+	}
 }

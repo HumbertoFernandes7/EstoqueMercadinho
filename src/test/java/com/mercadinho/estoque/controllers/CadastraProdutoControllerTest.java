@@ -69,10 +69,19 @@ public class CadastraProdutoControllerTest {
 		this.produto.setQuantidade(null);
 		mvc.createdWithBadRequest(this.uri, this.produto);
 	}
+	
+	@Test
+	void quando_cadastrarProdutoQuantidadeMenorQueZeroRetornarErro() throws Exception{
+		this.produto.setQuantidade(-1);
+		ResultActions result = mvc.createdWithBadRequest(this.uri, this.produto);
+		result.andExpect(jsonPath("[?($.message == 'Quantidade do produto não pode ser menor que 0')]").exists());
+	}
 
 	// sucesso
 	@Test
 	void quando_cadastrarProdutoRetornarSucesso() throws Exception {
 		mvc.created(this.uri, this.produto);
 	}
+	
+
 }
