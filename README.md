@@ -21,6 +21,6 @@ Esta é uma simples API desenvolvida em Spring Boot para gerenciar o estoque de 
 
 
 ## Bonus
-1. O projeto possui fronte end funcional.
+1. O projeto possui front-end funcional.
 2. https://github.com/HumbertoFernandes7/EstoqueMercadinhoFront
 
